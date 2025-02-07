@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { toast } from "sonner";
 
 type Component = {
   id: string;
@@ -29,6 +27,7 @@ interface PreviewAreaProps {
   setComponents: React.Dispatch<React.SetStateAction<Component[]>>;
   selectedComponent: Component | null;
   setSelectedComponent: React.Dispatch<React.SetStateAction<Component | null>>;
+  onAddComponent: (component: Component) => void;
 }
 
 export const PreviewArea = ({
@@ -36,6 +35,7 @@ export const PreviewArea = ({
   setComponents,
   selectedComponent: externalSelectedComponent,
   setSelectedComponent,
+  onAddComponent,
 }: PreviewAreaProps) => {
   const [showGrid, setShowGrid] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -75,9 +75,7 @@ export const PreviewArea = ({
       },
     };
 
-    setComponents([...components, newComponent]);
-    setSelectedComponent(newComponent);
-    toast.success("Component added successfully!");
+    onAddComponent(newComponent);
   };
 
   const handleComponentClick = (id: string, e: React.MouseEvent) => {
