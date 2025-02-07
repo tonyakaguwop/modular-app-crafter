@@ -3,14 +3,32 @@ import { ComponentPanel } from "@/components/ComponentPanel";
 import { PreviewArea } from "@/components/PreviewArea";
 import { PropertiesPanel } from "@/components/PropertiesPanel";
 
-const Index = () => {
-  const [selectedComponent, setSelectedComponent] = useState(null);
-  const [components, setComponents] = useState([]);
+type Component = {
+  id: string;
+  type: string;
+  position: { x: number; y: number };
+  properties?: {
+    text?: string;
+    checked?: boolean;
+    value?: number;
+    width?: string;
+    height?: string;
+    fontSize?: number;
+    backgroundColor?: string;
+    textColor?: string;
+    enabled?: boolean;
+    visible?: boolean;
+  };
+};
 
-  const handleUpdateProperties = (newProperties) => {
+const Index = () => {
+  const [selectedComponent, setSelectedComponent] = useState<Component | null>(null);
+  const [components, setComponents] = useState<Component[]>([]);
+
+  const handleUpdateProperties = (newProperties: Component["properties"]) => {
     setComponents(
       components.map((component) =>
-        component.id === selectedComponent.id
+        component.id === selectedComponent?.id
           ? { ...component, properties: newProperties }
           : component
       )
@@ -18,8 +36,10 @@ const Index = () => {
   };
 
   const handleDeleteComponent = () => {
-    setComponents(components.filter((component) => component.id !== selectedComponent.id));
-    setSelectedComponent(null);
+    if (selectedComponent) {
+      setComponents(components.filter((component) => component.id !== selectedComponent.id));
+      setSelectedComponent(null);
+    }
   };
 
   return (

@@ -24,10 +24,20 @@ type Component = {
   };
 };
 
-export const PreviewArea = () => {
-  const [components, setComponents] = useState<Component[]>([]);
+interface PreviewAreaProps {
+  components: Component[];
+  setComponents: React.Dispatch<React.SetStateAction<Component[]>>;
+  selectedComponent: Component | null;
+  setSelectedComponent: React.Dispatch<React.SetStateAction<Component | null>>;
+}
+
+export const PreviewArea = ({
+  components,
+  setComponents,
+  selectedComponent: externalSelectedComponent,
+  setSelectedComponent,
+}: PreviewAreaProps) => {
   const [showGrid, setShowGrid] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -66,13 +76,16 @@ export const PreviewArea = () => {
     };
 
     setComponents([...components, newComponent]);
-    setSelectedComponent(newComponent.id);
+    setSelectedComponent(newComponent);
     toast.success("Component added successfully!");
   };
 
   const handleComponentClick = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedComponent(id);
+    const component = components.find(c => c.id === id);
+    if (component) {
+      setSelectedComponent(component);
+    }
   };
 
   const handleBackgroundClick = () => {
@@ -124,7 +137,7 @@ export const PreviewArea = () => {
                 pointerEvents: component.properties?.enabled ? "auto" : "none",
               }}
               className={`${
-                selectedComponent === component.id
+                externalSelectedComponent?.id === component.id
                   ? "ring-2 ring-blue-500"
                   : "hover:ring-2 hover:ring-blue-200"
               } rounded transition-all duration-200`}
