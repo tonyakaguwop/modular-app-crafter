@@ -1,8 +1,12 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 
 type Component = {
   id: string;
@@ -19,6 +23,7 @@ type Component = {
     textColor?: string;
     enabled?: boolean;
     visible?: boolean;
+    href?: string;
   };
 };
 
@@ -72,6 +77,7 @@ export const PreviewArea = ({
         textColor: "#000000",
         enabled: true,
         visible: true,
+        href: "#",
       },
     };
 
@@ -88,6 +94,116 @@ export const PreviewArea = ({
 
   const handleBackgroundClick = () => {
     setSelectedComponent(null);
+  };
+
+  const renderComponent = (component: Component) => {
+    const commonProps = {
+      style: {
+        position: "absolute" as const,
+        left: component.position.x,
+        top: component.position.y,
+        width: component.properties?.width,
+        height: component.properties?.height,
+        fontSize: `${component.properties?.fontSize}px`,
+        backgroundColor: component.properties?.backgroundColor,
+        color: component.properties?.textColor,
+        opacity: component.properties?.visible ? 1 : 0.5,
+        pointerEvents: component.properties?.enabled ? "auto" : "none",
+      },
+      className: `${
+        externalSelectedComponent?.id === component.id
+          ? "ring-2 ring-blue-500"
+          : "hover:ring-2 hover:ring-blue-200"
+      } rounded transition-all duration-200`,
+      onClick: (e: React.MouseEvent) => handleComponentClick(component.id, e),
+    };
+
+    switch (component.type) {
+      case "button":
+        return (
+          <div {...commonProps}>
+            <Button>{component.properties?.text}</Button>
+          </div>
+        );
+      case "text":
+        return (
+          <p {...commonProps}>{component.properties?.text}</p>
+        );
+      case "heading":
+        return (
+          <h2 {...commonProps} className={`${commonProps.className} text-2xl font-bold`}>
+            {component.properties?.text}
+          </h2>
+        );
+      case "paragraph":
+        return (
+          <p {...commonProps} className={`${commonProps.className} max-w-prose`}>
+            {component.properties?.text}
+          </p>
+        );
+      case "quote":
+        return (
+          <blockquote {...commonProps} className={`${commonProps.className} border-l-4 border-gray-300 pl-4 italic`}>
+            {component.properties?.text}
+          </blockquote>
+        );
+      case "checkbox":
+        return (
+          <div {...commonProps}>
+            <Checkbox checked={component.properties?.checked} />
+          </div>
+        );
+      case "radio":
+        return (
+          <div {...commonProps}>
+            <RadioGroup defaultValue="option-one">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-one" id="option-one" />
+                <Label htmlFor="option-one">Option One</Label>
+              </div>
+            </RadioGroup>
+          </div>
+        );
+      case "slider":
+        return (
+          <div {...commonProps}>
+            <Slider
+              defaultValue={[component.properties?.value || 50]}
+              max={100}
+              step={1}
+              className="w-32"
+            />
+          </div>
+        );
+      case "image":
+        return (
+          <div {...commonProps} className={`${commonProps.className} w-32 h-32 bg-gray-200 flex items-center justify-center`}>
+            <span className="text-gray-500">Image</span>
+          </div>
+        );
+      case "link":
+        return (
+          <a
+            {...commonProps}
+            href={component.properties?.href}
+            className={`${commonProps.className} text-blue-500 hover:underline`}
+          >
+            {component.properties?.text}
+          </a>
+        );
+      case "datepicker":
+        return (
+          <div {...commonProps}>
+            <Calendar mode="single" className="rounded-md border shadow" />
+          </div>
+        );
+      default:
+        return (
+          <div {...commonProps}>
+            Unsupported component type: {component.type}
+          </div>
+        );
+    }
   };
 
   return (
@@ -119,52 +235,7 @@ export const PreviewArea = ({
           <div className="w-8 h-8 rounded-full border-2 border-gray-600" />
         </div>
         <div className="p-8 pt-12 h-full overflow-auto">
-          {components.map((component) => (
-            <div
-              key={component.id}
-              style={{
-                position: "absolute",
-                left: component.position.x,
-                top: component.position.y,
-                width: component.properties?.width,
-                height: component.properties?.height,
-                fontSize: `${component.properties?.fontSize}px`,
-                backgroundColor: component.properties?.backgroundColor,
-                color: component.properties?.textColor,
-                opacity: component.properties?.visible ? 1 : 0.5,
-                pointerEvents: component.properties?.enabled ? "auto" : "none",
-              }}
-              className={`${
-                externalSelectedComponent?.id === component.id
-                  ? "ring-2 ring-blue-500"
-                  : "hover:ring-2 hover:ring-blue-200"
-              } rounded transition-all duration-200`}
-              onClick={(e) => handleComponentClick(component.id, e)}
-            >
-              {component.type === "button" && (
-                <Button>{component.properties?.text}</Button>
-              )}
-              {component.type === "text" && (
-                <p>{component.properties?.text}</p>
-              )}
-              {component.type === "checkbox" && (
-                <Checkbox checked={component.properties?.checked} />
-              )}
-              {component.type === "slider" && (
-                <Slider
-                  defaultValue={[component.properties?.value || 50]}
-                  max={100}
-                  step={1}
-                  className="w-32"
-                />
-              )}
-              {component.type === "image" && (
-                <div className="w-32 h-32 bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500">Image</span>
-                </div>
-              )}
-            </div>
-          ))}
+          {components.map((component) => renderComponent(component))}
         </div>
       </Card>
     </div>

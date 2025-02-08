@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -12,6 +13,11 @@ import {
   Timer,
   Globe,
   CheckSquare,
+  Link as LinkIcon,
+  FileText,
+  Heading,
+  TextQuote,
+  CircleDot,
 } from "lucide-react";
 
 export type ComponentType = {
@@ -35,6 +41,24 @@ export const componentLibrary: ComponentType[] = [
     label: "Text",
   },
   {
+    id: "heading",
+    type: "heading",
+    icon: <Heading className="w-4 h-4" />,
+    label: "Heading",
+  },
+  {
+    id: "paragraph",
+    type: "paragraph",
+    icon: <FileText className="w-4 h-4" />,
+    label: "Paragraph",
+  },
+  {
+    id: "quote",
+    type: "quote",
+    icon: <TextQuote className="w-4 h-4" />,
+    label: "Quote",
+  },
+  {
     id: "image",
     type: "image",
     icon: <ImageIcon className="w-4 h-4" />,
@@ -45,6 +69,12 @@ export const componentLibrary: ComponentType[] = [
     type: "checkbox",
     icon: <CheckSquare className="w-4 h-4" />,
     label: "CheckBox",
+  },
+  {
+    id: "radio",
+    type: "radio",
+    icon: <CircleDot className="w-4 h-4" />,
+    label: "Radio",
   },
   {
     id: "datepicker",
@@ -63,6 +93,12 @@ export const componentLibrary: ComponentType[] = [
     type: "label",
     icon: <AlignLeft className="w-4 h-4" />,
     label: "Label",
+  },
+  {
+    id: "link",
+    type: "link",
+    icon: <LinkIcon className="w-4 h-4" />,
+    label: "Link",
   },
   {
     id: "password",
