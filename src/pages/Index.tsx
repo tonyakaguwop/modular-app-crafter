@@ -45,11 +45,11 @@ const Index = () => {
       }
 
       if (data) {
-        const transformedComponents: Component[] = data.map(component => ({
-          id: component.id.toString(),
-          type: component.type,
-          position: component.position as { x: number; y: number },
-          properties: component.properties as Component['properties']
+        const transformedComponents: Component[] = data.map(item => ({
+          id: item.id,
+          type: item.type,
+          position: item.position as { x: number; y: number },
+          properties: item.properties as Component['properties']
         }));
         setComponents(transformedComponents);
       }
@@ -128,11 +128,12 @@ const Index = () => {
 
       if (data) {
         const transformedComponent: Component = {
-          id: data.id.toString(),
+          id: data.id,
           type: data.type,
           position: data.position as { x: number; y: number },
           properties: data.properties as Component['properties']
         };
+
         setComponents([...components, transformedComponent]);
         setSelectedComponent(transformedComponent);
         toast.success('Component added successfully');
