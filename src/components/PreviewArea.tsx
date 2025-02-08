@@ -97,19 +97,21 @@ export const PreviewArea = ({
   };
 
   const renderComponent = (component: Component) => {
+    const commonStyles: React.CSSProperties = {
+      position: "absolute",
+      left: component.position.x,
+      top: component.position.y,
+      width: component.properties?.width || "auto",
+      height: component.properties?.height || "auto",
+      fontSize: `${component.properties?.fontSize}px`,
+      backgroundColor: component.properties?.backgroundColor,
+      color: component.properties?.textColor,
+      opacity: component.properties?.visible ? 1 : 0.5,
+      pointerEvents: component.properties?.enabled ? "auto" as const : "none" as const,
+    };
+
     const commonProps = {
-      style: {
-        position: "absolute" as const,
-        left: component.position.x,
-        top: component.position.y,
-        width: component.properties?.width,
-        height: component.properties?.height,
-        fontSize: `${component.properties?.fontSize}px`,
-        backgroundColor: component.properties?.backgroundColor,
-        color: component.properties?.textColor,
-        opacity: component.properties?.visible ? 1 : 0.5,
-        pointerEvents: component.properties?.enabled ? "auto" : "none",
-      },
+      style: commonStyles,
       className: `${
         externalSelectedComponent?.id === component.id
           ? "ring-2 ring-blue-500"
