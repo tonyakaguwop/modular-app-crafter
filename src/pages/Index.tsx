@@ -45,10 +45,13 @@ const Index = () => {
       }
 
       if (data) {
-        setComponents(data.map(component => ({
-          ...component,
-          id: component.id.toString()
-        })));
+        const transformedComponents: Component[] = data.map(component => ({
+          id: component.id.toString(),
+          type: component.type,
+          position: component.position as { x: number; y: number },
+          properties: component.properties as Component['properties']
+        }));
+        setComponents(transformedComponents);
       }
     } catch (error) {
       console.error('Error loading components:', error);
@@ -124,9 +127,14 @@ const Index = () => {
       }
 
       if (data) {
-        const component = { ...data, id: data.id.toString() };
-        setComponents([...components, component]);
-        setSelectedComponent(component);
+        const transformedComponent: Component = {
+          id: data.id.toString(),
+          type: data.type,
+          position: data.position as { x: number; y: number },
+          properties: data.properties as Component['properties']
+        };
+        setComponents([...components, transformedComponent]);
+        setSelectedComponent(transformedComponent);
         toast.success('Component added successfully');
       }
     } catch (error) {
