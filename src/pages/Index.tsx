@@ -45,12 +45,18 @@ const Index = () => {
       }
 
       if (data) {
-        const transformedComponents: Component[] = data.map(item => ({
-          id: item.id,
-          type: item.type,
-          position: item.position as { x: number; y: number },
-          properties: item.properties as Component['properties']
-        }));
+        const transformedComponents: Component[] = data.map(item => {
+          const position = typeof item.position === 'string' 
+            ? JSON.parse(item.position) 
+            : item.position;
+
+          return {
+            id: item.id,
+            type: item.type,
+            position: position as { x: number; y: number },
+            properties: item.properties as Component['properties']
+          };
+        });
         setComponents(transformedComponents);
       }
     } catch (error) {
@@ -127,10 +133,14 @@ const Index = () => {
       }
 
       if (data) {
+        const position = typeof data.position === 'string' 
+          ? JSON.parse(data.position) 
+          : data.position;
+
         const transformedComponent: Component = {
           id: data.id,
           type: data.type,
-          position: data.position as { x: number; y: number },
+          position: position as { x: number; y: number },
           properties: data.properties as Component['properties']
         };
 
