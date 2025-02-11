@@ -59,12 +59,28 @@ export const PreviewArea = ({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    // Get default text based on component type
+    const getDefaultText = (type: string) => {
+      switch (type) {
+        case "button": return "Button";
+        case "text": return "Text";
+        case "heading": return "Heading";
+        case "paragraph": return "Text";
+        case "quote": return "Quote";
+        case "checkbox": return "Check";
+        case "radio": return "Option";
+        case "link": return "Link";
+        case "label": return "Label";
+        default: return "";
+      }
+    };
+
     const newComponent = {
       id: `${componentType}-${Date.now()}`,
       type: componentType,
       position: { x, y },
       properties: {
-        text: "New Component",
+        text: getDefaultText(componentType),
         checked: false,
         value: 50,
         width: "auto",
