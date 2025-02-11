@@ -65,37 +65,37 @@ export const ComponentRenderer = ({
       return (
         <div {...commonProps}>
           <Button variant="outline" className="min-w-20">
-            {component.properties?.text || ""}
+            {component.properties?.text}
           </Button>
         </div>
       );
     case "text":
       return (
-        <p {...commonProps}>{component.properties?.text || ""}</p>
+        <p {...commonProps}>{component.properties?.text}</p>
       );
     case "heading":
       return (
         <h2 {...commonProps} className={`${commonProps.className} text-2xl font-bold`}>
-          {component.properties?.text || ""}
+          {component.properties?.text}
         </h2>
       );
     case "paragraph":
       return (
         <p {...commonProps} className={`${commonProps.className} max-w-prose`}>
-          {component.properties?.text || ""}
+          {component.properties?.text}
         </p>
       );
     case "quote":
       return (
         <blockquote {...commonProps} className={`${commonProps.className} border-l-4 border-gray-300 pl-4 italic`}>
-          {component.properties?.text || ""}
+          {component.properties?.text}
         </blockquote>
       );
     case "checkbox":
       return (
         <div {...commonProps} className={`${commonProps.className} flex items-center gap-2`}>
           <Checkbox checked={component.properties?.checked} />
-          <Label>{component.properties?.text || ""}</Label>
+          <Label>{component.properties?.text}</Label>
         </div>
       );
     case "radio":
@@ -104,7 +104,7 @@ export const ComponentRenderer = ({
           <RadioGroup defaultValue="option-one">
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="option-one" id="option-one" />
-              <Label htmlFor="option-one">{component.properties?.text || ""}</Label>
+              <Label htmlFor="option-one">{component.properties?.text}</Label>
             </div>
           </RadioGroup>
         </div>
@@ -121,9 +121,7 @@ export const ComponentRenderer = ({
       );
     case "image":
       return (
-        <div {...commonProps} className={`${commonProps.className} w-32 h-32 bg-gray-100 flex items-center justify-center border rounded-md`}>
-          <span className="text-gray-400 text-xs">•</span>
-        </div>
+        <div {...commonProps} className={`${commonProps.className} w-32 h-32 bg-gray-100 flex items-center justify-center border rounded-md`} />
       );
     case "link":
       return (
@@ -132,48 +130,44 @@ export const ComponentRenderer = ({
           href={component.properties?.href || "#"}
           className={`${commonProps.className} text-blue-500 hover:underline`}
         >
-          {component.properties?.text || ""}
+          {component.properties?.text}
         </a>
       );
     case "datepicker":
       return (
-        <div {...commonProps}>
-          <Calendar mode="single" className="rounded-md border shadow bg-white" />
+        <div {...commonProps} className={`${commonProps.className} w-64 h-64 bg-white border rounded-md flex items-center justify-center`}>
+          <div className="w-8 h-8 border-2 border-gray-200 rounded-full" />
         </div>
       );
     case "listview":
       return (
         <div {...commonProps} className={`${commonProps.className} min-w-[200px] border rounded-md p-2 bg-white`}>
           <div className="space-y-2">
-            <div className="p-2 bg-gray-50 rounded"></div>
-            <div className="p-2 bg-gray-50 rounded"></div>
-            <div className="p-2 bg-gray-50 rounded"></div>
+            <div className="p-2 bg-gray-50 rounded" />
+            <div className="p-2 bg-gray-50 rounded" />
+            <div className="p-2 bg-gray-50 rounded" />
           </div>
         </div>
       );
     case "label":
       return (
         <Label {...commonProps}>
-          {component.properties?.text || ""}
+          {component.properties?.text}
         </Label>
       );
     case "password":
       return (
         <div {...commonProps}>
-          <Input type="password" placeholder="" className="w-48" />
+          <Input type="password" className="w-48" />
         </div>
       );
     case "webview":
       return (
-        <div {...commonProps} className={`${commonProps.className} w-64 h-40 border rounded-md bg-gray-50 flex items-center justify-center`}>
-          <span className="text-gray-400 text-xs">•</span>
-        </div>
+        <div {...commonProps} className={`${commonProps.className} w-64 h-40 border rounded-md bg-gray-50`} />
       );
     default:
       return (
-        <div {...commonProps} className={`${commonProps.className} p-2 border rounded bg-gray-50`}>
-          <span className="text-gray-400 text-xs">•</span>
-        </div>
+        <div {...commonProps} className={`${commonProps.className} w-16 h-16 border rounded bg-gray-50`} />
       );
   }
 };
