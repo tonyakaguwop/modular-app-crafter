@@ -56,8 +56,8 @@ export const PreviewArea = ({
     setIsDragging(false);
     const componentType = e.dataTransfer.getData("componentType");
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = e.clientX - rect.left - 32; // Adjust for padding
+    const y = e.clientY - rect.top - 32; // Adjust for padding
 
     // Get default text based on component type
     const getDefaultText = (type: string) => {
