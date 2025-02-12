@@ -32,7 +32,7 @@ export const PreviewFrame = ({
         <div className="w-16 h-4 bg-gray-800 mx-auto rounded-b-lg" />
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-12 bg-black rounded-b-xl" />
-      <div className="p-8 pt-12 h-full overflow-auto">
+      <div className="pt-8 px-4 pb-16 h-[calc(100%-3rem)] overflow-y-auto">
         {children}
       </div>
     </div>
